@@ -36,7 +36,9 @@ public class LoginController {
 				logger.info("valid user");
 
 				if (user.getRole().equals("admin")) {
+					logger.info("valid role");
 					return "redirect:/admin/showDashboard";
+				
 				} else if (user.getRole().equals("librarian")) {
 					logger.info("valid librarian");
 					return "redirect:/library/showDashboard";
