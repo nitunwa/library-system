@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Theme Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+
+
+<!-- Bootstrap theme -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Custom styles for this template -->
+
+
+<link href="../static/css/theme.css" th:href="@{/css/theme.css}"
+	rel="stylesheet" media="screen" />
+
+</head>
+
+<body>
+
+	<!-- Fixed navbar -->
+
+	<div class="container theme-showcase" role="main">
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<div class="table table-bordered">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Book Name</th>
+								<th>Author Name</th>
+								<th>Category</th>
+								<th>Edition</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="book,iterationStatus  : ${bookList}">
+								
+								<td th:text="${book.id}"></td>
+								<td th:text="${book.bookName}">book name</td>
+								<td th:text="${book.author}">author name</td>
+								<td th:text="${book.category}">category</td>
+								<td th:text="${book.edition}">edition</td>
+								
+								
+							
+						 
+								</tr>
+							</tbody>
+					</table>
+				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+			</div>
+		</div>
+</div>
+	
+	
+	<div class="container">
+	
+	
+	
+
+		<form action="/member/borrowBook" method="post" autocomplete="off">
+
+			<div class="form-group">
+				<label for="exampleInputName1">Select Book</label>
+				 <select name="bookId" >
+					  <option th:each="book : ${bookList}" 
+          						th:value="${book.id}" 
+          						th:text="${book.bookName}">
+          				   Book
+          			</option> 
+				</select>
+				
+				<!--  <select th:field="*{type}">
+  <option th:each="type : ${allTypes}" 
+          th:value="${type}" 
+          th:text="#{${'seedstarter.type.' + type}}">Wireframe</option>
+</select>-->
+
+			</div>
+
+			<button type="submit" class="btn btn-primary">Save</button>
+			<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
+		</form>
+	</div>
+	<!-- /container -->
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script src="../static/js/bootstrap.min.js"
+		th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
