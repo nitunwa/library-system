@@ -9,15 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
 @Table(name = "book")
 public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
+	private Long id;
+
 	public String getISDN() {
 		return ISDN;
 	}
@@ -28,19 +27,19 @@ public class Book {
 
 	@NotNull
 	private String ISDN;
-	
+
 	@NotNull
-	private String name;
-	
+	private String bookName;
+
 	@NotNull
 	private String category;
-	
+
 	@NotNull
-	private String  author;
-	
+	private String author;
+
 	@NotNull
-	private int edition; 
-	 
+	private int edition;
+
 	public Date getCurrentDate() {
 		return currentDate;
 	}
@@ -50,7 +49,7 @@ public class Book {
 	}
 
 	@NotNull
-	private  Date currentDate = new Date();
+	private Date currentDate = new Date();
 
 	public int getEdition() {
 		return edition;
@@ -60,20 +59,12 @@ public class Book {
 		this.edition = edition;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getCategory() {
@@ -91,26 +82,48 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
-public Book(){ }
-	
-	public Book(long id){
-		this.id=id;
+
+	public String getBookName() {
+		return bookName;
 	}
-	
-	public Book(String ISDN, String name, String category, String author, int edition) {
-		
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
+
+	public Book() {
+	}
+
+	public Book(Long id) {
+		this.id = id;
+	}
+
+	public Book(String bookName) {
+		super();
+		this.bookName = bookName;
+	}
+
+	public Book(String ISDN, String bookName, String category, String author, int edition) {
+
 		this.ISDN = ISDN;
-		this.name = name;
+		this.bookName = bookName;
 		this.category = category;
 		this.author = author;
 		this.edition = edition;
 	}
 
-	public Book(String name,String category,String author ){
-		
-		this.name= name;
-		this.category=category;
-		this.author=author;
+	public Book(String bookName, String category, String author) {
+
+		this.bookName = bookName;
+		this.category = category;
+		this.author = author;
 	}
+
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", ISDN=" + ISDN + ", bookName=" + bookName + ", category=" + category + ", author="
+				+ author + ", edition=" + edition + ", currentDate=" + currentDate + "]";
+	}
+	
+	
 }

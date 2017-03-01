@@ -44,17 +44,17 @@ public class BookDao {
 	   */
 	
 	@SuppressWarnings("unchecked")
-	public List<Book> getAll() {
+	public List<Book> getAllBook() {
 	    return entityManager.createQuery("from Book").getResultList();
 	  }
 	
 	/**
 	   * Return the book having the passed user name.
 	   */
-	public Book getByEmail(String ISDN) {
+	public Book getById(Long bookId) {
 	    return (Book) entityManager.createQuery(
-	        "from   Book where ISDN= :ISDN")
-	        .setParameter("Email",ISDN)
+	        "from   Book where id= :bookId")
+	        .setParameter("bookId",bookId)
 	        .getSingleResult();
 	  }
 	

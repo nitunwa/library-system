@@ -29,7 +29,7 @@ public class LibrarianController {
 	
 	@RequestMapping(value="/showDashboard",method=RequestMethod.GET)
 	public String showDashboard(Model model) {
-		return "library/memberDashbord";
+		return "library/libraryDashbord";
 	}
 	
 	@RequestMapping(value="/createmember",method=RequestMethod.GET)
@@ -59,7 +59,7 @@ public class LibrarianController {
 	@RequestMapping(value = "/createBook",method=RequestMethod.POST)
 	@ResponseBody
 	public String create(Model model, @RequestParam(value = "ISDN") String ISDN,
-	        @RequestParam(value = "name") String name,
+	        @RequestParam(value = "bookName") String bookName,
 	        @RequestParam(value = "category") String category,
 	        @RequestParam(value = "author") String author,
 			@RequestParam(value = "edition") int edition){
@@ -67,7 +67,7 @@ public class LibrarianController {
 		logger.info("Verifiing book: " + ISDN);
 		
 	        try {
-			Book book = new Book(ISDN,name,category,author,edition);
+			Book book = new Book(ISDN,bookName,category,author,edition);
 			bookDao.create(book);
 		} catch (Exception ex) {
 			return "Error creating the book: " + ex.toString();

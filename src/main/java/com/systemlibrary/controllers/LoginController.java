@@ -43,7 +43,7 @@ public class LoginController {
 					logger.info("valid librarian");
 					return "redirect:/library/showDashboard";
 				} else {
-					return "redirect:/admin/showDashboard";
+					return "redirect:/member/borrowBook";
 				}
 			} else {
 				logger.info("invalid user");
