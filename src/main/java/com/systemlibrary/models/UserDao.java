@@ -45,7 +45,7 @@ public class UserDao {
 	   */
 	
 	@SuppressWarnings("unchecked")
-	public List<User> getAll() {
+	public List<User> getAllUser() {
 	    return entityManager.createQuery("from User").getResultList();
 	  }
 	

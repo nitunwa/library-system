@@ -1,5 +1,9 @@
 package com.systemlibrary.controllers;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +18,7 @@ import com.systemlibrary.models.User;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private UserDao userDao;
 	
@@ -38,6 +42,18 @@ public class AdminController {
 		} catch (Exception ex) {
 			return "Error creating the user: " + ex.toString();
 		}
-		return "User succesfully created!";
+		
+		return "redirect:/admin/main";
+		
+	}
+	
+	@RequestMapping(value="/main")
+	public String showUser(Model model) {
+		logger.info("show the error");
+		List<User> userList = userDao.getAllUser();
+		logger.info("user size: " +userList.size());
+		model.addAttribute("userList", userList);
+	
+		return "redirect:/admin/userReport";
 	}
 }

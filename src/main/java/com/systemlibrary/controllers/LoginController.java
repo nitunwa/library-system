@@ -1,5 +1,7 @@
 package com.systemlibrary.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.systemlibrary.models.UserDao;
+import com.systemlibrary.models.Book;
 import com.systemlibrary.models.User;
 
 @Controller
@@ -54,5 +57,14 @@ public class LoginController {
 			return "redirect:/login";
 		}
 
+	}
+	
+	@RequestMapping(value="/userReport",method=RequestMethod.GET)
+	public String showUser(Model model) {
+		List<User> userList = userDao.getAllUser();
+		logger.info("user size: " +userList.size());
+		model.addAttribute("userList", userList);
+	
+		return "auth/userReport";
 	}
 }
