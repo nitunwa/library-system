@@ -22,10 +22,12 @@ public class BorrowBook {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "borrrowUserId")
 	private User borrrowUser;
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "borrrowBookId")
 	private Book borrowBook;
+	
+	
 
 	private Date checkOut;
 	private Date checkIn;
@@ -78,6 +80,15 @@ public class BorrowBook {
 		this.checkOut = checkOut;
 		this.checkIn = checkIn;
 	}
+	
+	//public BorrowBook(long id, User borrrowUserName, Book borrowBookName, Date checkOut) {
+		//super();
+		//this.id = id;
+		//this.borrrowUserName = borrrowUserName;
+		//this.borrowBookName = borrowBookName;
+		//this.checkOut = checkOut;
+		
+	//}
 
 	public BorrowBook() {
 
@@ -88,5 +99,11 @@ public class BorrowBook {
 		return "BorrowBook [id=" + id + ", borrrowUser=" + borrrowUser + ", borrowBook=" + borrowBook + ", checkOut="
 				+ checkOut + ", checkIn=" + checkIn + "]";
 	}
+	
+	//@Override
+	//public String toString() {
+		//return "BorrowBook [id=" + id + ", borrrowUserName=" + borrrowUserName + ", borrowBookName=" + borrowBookName + ", checkOut="
+				//+ checkOut +  "]";
+	//}
 
 }

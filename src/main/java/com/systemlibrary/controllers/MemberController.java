@@ -56,6 +56,11 @@ public class MemberController {
 		User user = new User();
 		//user.setId(3);
 		//user.setEmail("siiam@d,c"); //hardcoded /static
+		
+	//	user.setName("nitun");
+       // book.setBookName("Nancy");
+        
+		
 		try {
 			 book = bookDao.getById(bookId);
 			 user= userDao.getByEmail("luna@gm.com");
@@ -69,6 +74,12 @@ public class MemberController {
 			logger.info("Book: " +book.toString());
 			logger.info("borrowBook: " +borrowBook.toString());
 			
+			List<BorrowBook> borrowBookList= borrowBooDao.getBorrowBookListByUserId(user);
+			
+			logger.info("Total borrow list size: "+	borrowBookList.size());
+			model.addAttribute("borrowBookList", borrowBookList);
+			
+			
 		} catch (Exception ex) {
 			return "Book not found: " + ex.toString();
 		}
@@ -76,9 +87,10 @@ public class MemberController {
 		logger.info("Borrow book successfully!!!!!1: id: " +bookId);
 		
       
-		Book newBook=  new Book(book.getBookName());
+		//Book newBook=  new Book(book.getBookName());
        
-		return "Book succesfully Check Out !" +"   "+"borrowBook Name:" +borrowBook.toString();
+		//return "Book succesfully Check Out !" +"   "+"borrowBook Name:" +borrowBook.toString();
+		return "member/borrowBookReport";
 	}
 	
 	public  Date addDays(Date date, int days)

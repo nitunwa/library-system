@@ -1,11 +1,15 @@
 package com.systemlibrary.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -17,16 +21,8 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	public String getISDN() {
-		return ISDN;
-	}
-
-	public void setISDN(String iSDN) {
-		ISDN = iSDN;
-	}
-
 	@NotNull
-	private String ISDN;
+	private String isdn;
 
 	@NotNull
 	private String bookName;
@@ -39,17 +35,42 @@ public class Book {
 
 	@NotNull
 	private int edition;
+	@NotNull
+	private Date currentDate = new Date();
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "borrowBook")
+	List<BorrowBook> borrowList = new ArrayList<BorrowBook>();
+	
+	
+
+	public String getIsdn() {
+		return isdn;
+	}
+
+
+	public void setIsdn(String isdn) {
+		this.isdn = isdn;
+	}
+
+
+	public List<BorrowBook> getBorrowList() {
+		return borrowList;
+	}
+
+
+	public void setBorrowList(List<BorrowBook> borrowList) {
+		this.borrowList = borrowList;
+	}
+
 
 	public Date getCurrentDate() {
 		return currentDate;
 	}
 
+
 	public void setCurrentDate(Date currentDate) {
 		this.currentDate = currentDate;
 	}
-
-	@NotNull
-	private Date currentDate = new Date();
 
 	public int getEdition() {
 		return edition;
@@ -103,9 +124,9 @@ public class Book {
 		this.bookName = bookName;
 	}
 
-	public Book(String ISDN, String bookName, String category, String author, int edition) {
+	public Book(String isdn, String bookName, String category, String author, int edition) {
 
-		this.ISDN = ISDN;
+		this.isdn = isdn;
 		this.bookName = bookName;
 		this.category = category;
 		this.author = author;
@@ -121,9 +142,8 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", ISDN=" + ISDN + ", bookName=" + bookName + ", category=" + category + ", author="
+		return "Book [id=" + id + ", ISDN=" + isdn + ", bookName=" + bookName + ", category=" + category + ", author="
 				+ author + ", edition=" + edition + ", currentDate=" + currentDate + "]";
 	}
-	
-	
+
 }

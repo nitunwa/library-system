@@ -10,10 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.systemlibrary.models.UserDao;
 import com.systemlibrary.models.User;
+import com.systemlibrary.models.UserDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,7 +32,6 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/createuser",method=RequestMethod.POST)
-	@ResponseBody
 	public String create(Model model, @RequestParam(value = "name") String name,@RequestParam(value = "email") String email,
 			@RequestParam(value = "password") String password,@RequestParam(value = "role") String role) {
 		try {
@@ -43,17 +41,17 @@ public class AdminController {
 			return "Error creating the user: " + ex.toString();
 		}
 		
-		return "redirect:/admin/main";
+		return "redirect:/admin/userListReport";
 		
 	}
 	
-	@RequestMapping(value="/main")
-	public String showUser(Model model) {
+	@RequestMapping(value="/userListReport")
+	public String userListReport(Model model) {
 		logger.info("show the error");
 		List<User> userList = userDao.getAllUser();
 		logger.info("user size: " +userList.size());
 		model.addAttribute("userList", userList);
 	
-		return "redirect:/admin/userReport";
+		return "/admin/userListReport";
 	}
 }

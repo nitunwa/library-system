@@ -10,56 +10,56 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class BookDao {
+public class BookDao  {
 
 	@PersistenceContext
-	 private EntityManager entityManager;
-	
+	private EntityManager entityManager;
 
 	/**
-	   * Save the book in the database.
-	   */
-	
-	public void create(Book book)
-	{
+	 * Save the book in the database.
+	 */
+
+	public void create(Book book) {
 		entityManager.persist(book);
 		return;
 	}
-	
-	 /**
-	   * Delete the book from the database.
-	   */
-	
-	public void delete(Book book)
-	{
-	 if(entityManager.contains( book))
-		 entityManager.remove(book);
-	 entityManager.remove(entityManager.merge(book));
-	    return;
-		 
+
+	/**
+	 * Delete the book from the database.
+	 */
+
+	public void delete(Book book) {
+		if (entityManager.contains(book))
+			entityManager.remove(book);
+		entityManager.remove(entityManager.merge(book));
+		return;
+
 	}
-	
-	 /**
-	   * Return all the book stored in the database.
-	   */
-	
+
+	/**
+	 * Return all the book stored in the database.
+	 */
+
 	@SuppressWarnings("unchecked")
 	public List<Book> getAllBook() {
-	    return entityManager.createQuery("from Book").getResultList();
-	  }
-	
+		return entityManager.createQuery("from Book").getResultList();
+	}
+
 	/**
-	   * Return the book having the passed user name.
-	   */
+	 * Return the book having the passed user name.
+	 */
 	public Book getById(Long bookId) {
-	    return (Book) entityManager.createQuery(
-	        "from   Book where id= :bookId")
-	        .setParameter("bookId",bookId)
-	        .getSingleResult();
-	  }
+		return (Book) entityManager.createQuery("from   Book where id= :bookId").setParameter("bookId", bookId)
+				.getSingleResult();
+	}
 	
+	public Book getByName(String bookname) {
+		return (Book) entityManager.createQuery("from   Book where bookName= :bookName").setParameter("bookName", bookname)
+				.getSingleResult();
+	}
+
 	public void login(Book book) {
-	    entityManager.merge(book);
-	    return;
-}
+		entityManager.merge(book);
+		return;
+	}
 }
