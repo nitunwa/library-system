@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Theme Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+	
+
+
+<!-- Bootstrap theme -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Custom styles for this template -->
+
+
+<link href="../static/css/theme.css" th:href="@{/css/theme.css}"
+	rel="stylesheet" media="screen" />
+
+</head>
+<body>
+
+<h1 th:text="${error}"></h1>
+	<!-- Fixed navbar -->
+	<div class="container theme-showcase" role="main">
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<div class="table table-bordered">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Book Name</th>
+								<th>author Name</th>
+								<th>User Name</th>
+								<th>Checkout</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="borrow,iterationStatus  : ${borrowBookList}">
+								
+								<td th:text="${borrow.id}"></td>
+								<td th:text="${borrow.borrowBook.bookName}">book name</td>
+								<td th:text="${borrow.borrowBook.author}">author name</td>
+								<td th:text="${borrow.borrrowUser.name}">name</td>
+								<td th:text="${borrow.checkOut}">checkOut</td>
+						 
+								</tr>
+							</tbody>
+					</table>
+				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+			</div>
+		</div>
+</div>
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<script src="../static/js/bootstrap.min.js"
+			th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
