@@ -33,72 +33,84 @@
 
 	<!-- Fixed navbar -->
 
-	<div class="container theme-showcase" role="main">
+	<div class="container">
 
 		<div class="row">
 
-			<div class="col-md-6">
-				<div class="table table-bordered">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Book Name</th>
-								<th>Author Name</th>
-								<th>Category</th>
-								<th>Edition</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="book,iterationStatus  : ${bookList}">
-								
-								<td th:text="${book.id}"></td>
-								<td th:text="${book.bookName}">book name</td>
-								<td th:text="${book.author}">author name</td>
-								<td th:text="${book.category}">category</td>
-								<td th:text="${book.edition}">edition</td>
-								
-								
-							
-						 
-								</tr>
-							</tbody>
-					</table>
-				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+			<div class="col-sm-4">
+
+				<!-- Left menu -->
+
 			</div>
+			<div class="col-sm-8">
+				<h1 th:text="${ 'Welcome ' + loginUser.name}">loginUser</h1>
+
+
+				<div class="row">
+
+
+
+					<div class="col-md-6">
+						<div class="table table-bordered">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Book Name</th>
+										<th>Author Name</th>
+										<th>Category</th>
+										<th>Edition</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="book,iterationStatus  : ${bookList}">
+
+										<td th:text="${book.id}"></td>
+										<td th:text="${book.bookName}">book name</td>
+										<td th:text="${book.author}">author name</td>
+										<td th:text="${book.category}">category</td>
+										<td th:text="${book.edition}">edition</td>
+
+
+
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+					</div>
+				</div>
+
+				<div class="row">
+
+
+
+					<form action="/member/borrowBook" method="post" autocomplete="off">
+
+						<div class="form-group">
+							<label for="exampleInputName1">Select Book</label> <select
+								name="bookId">
+								<option th:each="book : ${bookList}" th:value="${book.id}"
+									th:text="${book.bookName}">Book</option>
+							</select>
+
+						</div>
+
+						<button type="submit" class="btn btn-primary">Save</button>
+						<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
+					</form>
+				</div>
+
+			</div>
+
 		</div>
-</div>
-	
-	
-	<div class="container">
-	
-	
-	
 
-		<form action="/member/borrowBook" method="post" autocomplete="off">
 
-			<div class="form-group">
-				<label for="exampleInputName1">Select Book</label>
-				 <select name="bookId" >
-					  <option th:each="book : ${bookList}" 
-          						th:value="${book.id}" 
-          						th:text="${book.bookName}">
-          				   Book
-          			</option> 
-				</select>
-				
-				<!--  <select th:field="*{type}">
-  <option th:each="type : ${allTypes}" 
-          th:value="${type}" 
-          th:text="#{${'seedstarter.type.' + type}}">Wireframe</option>
-</select>-->
-
-			</div>
-
-			<button type="submit" class="btn btn-primary">Save</button>
-			<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
-		</form>
 	</div>
+
+
+
 	<!-- /container -->
 
 	<!-- Bootstrap core JavaScript

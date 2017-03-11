@@ -2,6 +2,8 @@ package com.systemlibrary.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.systemlibrary.models.UserDao;
-import com.systemlibrary.models.Book;
 import com.systemlibrary.models.User;
+import com.systemlibrary.models.UserDao;
 
 @Controller
 @RequestMapping("/auth")
@@ -27,17 +27,23 @@ public class LoginController {
 	public String singin(Model model) {
 		return "singin";
 	}
+	
+	@RequestMapping(value = "/singout", method = RequestMethod.GET)
+	public String singout(Model model,HttpSession httpSession) {
+		httpSession.setAttribute("loginUser", null);
+		return "/auth/singin";
+	}
 
 	@RequestMapping(value = "/singin", method = RequestMethod.POST)
 	public String singin(Model model, @RequestParam(value = "email") String email,
-			@RequestParam(value = "password") String password) {
+			@RequestParam(value = "password") String password ,  HttpSession httpSession) {
 		logger.info("Verifiing user: " + email);
 		try {
 			User user = userDao.getByEmail(email);
 
 			if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
 				logger.info("valid user");
-
+				httpSession.setAttribute("loginUser", user);
 				if (user.getRole().equals("admin")) {
 					logger.info("valid role");
 					return "redirect:/admin/showDashboard";

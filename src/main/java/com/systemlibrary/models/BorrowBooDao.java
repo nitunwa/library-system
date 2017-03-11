@@ -29,7 +29,17 @@ public class BorrowBooDao {
 	{
 		String sql="SELECT bb FROM BorrowBook bb JOIN FETCH bb.borrrowUser u JOIN FETCH bb.borrowBook b where bb.borrrowUser.id=:id";
 		List<BorrowBook>  borrowBookList=entityManager.createQuery(sql, BorrowBook.class).setParameter("id", user.getId()).getResultList();
+		System.out.println("BorrowBooDao.getBorrowBookListByUserId()" +borrowBookList.size());
 		return borrowBookList;
 	}
+	
+	public Long totalBorrowBook(User user)
+	{
+		String sql="select count(bb.id) from BorrowBook bb where  bb.borrrowUser.id=:id";
+		Long num = ((Number)entityManager.createQuery(sql,Number.class ).setParameter("id", user.getId())
+                .getSingleResult()).longValue();
+		return num;
+	}
+	
 	
 }
