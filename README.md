@@ -13,3 +13,4 @@ git add *
 git commit -a -m "jpa and nativ sql query"
 
 git push origin
+ git remote -v
