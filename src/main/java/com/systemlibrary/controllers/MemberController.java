@@ -41,27 +41,65 @@ public class MemberController {
 		return "member/memberDashboard";
 	}
 
-	@RequestMapping(value = "/borrowBook", method = RequestMethod.GET)
-	public String borrowBook(Model model,HttpSession httpSession) {
+	/*  Book list for single user */
+	
+	public List<BorrowBook>  showBookReportByUser(User user){		 
+		List<BorrowBook> borrowBookList = borrowBooDao.getBorrowBookListByUserId(user);
+		logger.info("Total borrow list size: " + borrowBookList.size());
+		return borrowBookList;
+	}
+	
+	@RequestMapping(value = "/borrowBookReport", method = RequestMethod.GET)
+	public String showborrowBookReport(Model model,HttpSession httpSession) {
+		/*  */
 		
+		
+		User user = (User) httpSession.getAttribute("loginUser");
+		List<BorrowBook> borrowBookList=showBookReportByUser(user);
+		model.addAttribute("borrowBookList", borrowBookList);
+		return "member/borrowBookReport";
+	}
+
+	@RequestMapping(value = "/borrowBook", method = RequestMethod.GET)
+	public String borrowBook(Model model, HttpSession httpSession) {
+		/*  */
 		User loginUser = (User) httpSession.getAttribute("loginUser");
-		if(loginUser==null){
+		if (loginUser == null) {
 			return "redirect:/auth/singin";
 		}
-		
-		Long totalBook=	borrowBooDao.totalBorrowBook(loginUser);
-		logger.info("totalBook " + totalBook);
+
 		List<Book> bookList = bookDao.getAllBook();
 		logger.info("book size: " + bookList.size());
 		model.addAttribute("bookList", bookList);
-		model.addAttribute("loginUser",loginUser);
-		
+		model.addAttribute("loginUser", loginUser);
+
+		/*  */
+		User user = (User) httpSession.getAttribute("loginUser");
+
+		/* show the total borrow book */
+		Long Total = borrowBooDao.totalBorrowBook(user);
+		logger.info("Total borrow book : " + Total);
+		model.addAttribute("bookTotal", Total);
+
+		/* check the expiration date */
+		Date today = new Date();
+		Date twoDay = addDays(today, 2);
+		Boolean hasExpairBook = borrowBooDao.hasExpairBooks(user, twoDay);
+		model.addAttribute("hasExpairBook", hasExpairBook);
+		logger.info("Total borrow book : " + hasExpairBook);
+
+		/* show the expiration date */
+		Date expairDate = addDays(today, 2);
+		model.addAttribute("expairDate", expairDate);
+		logger.info("Due Date : " + twoDay);
 
 		return "member/borrowBook";
 	}
 
 	@RequestMapping(value = "/borrowBook", method = RequestMethod.POST)
-	public String borrowBook(Model model, @RequestParam(value = "bookId") Long bookId, HttpSession httpSession) {
+	public String borrowBook(Model model, @RequestParam(value = "bookId") Long bookId,
+
+			HttpSession httpSession) {
 		Book book = new Book();
 		BorrowBook borrowBook = new BorrowBook();
 		User user = new User();
@@ -74,7 +112,7 @@ public class MemberController {
 		try {
 			book = bookDao.getById(bookId);
 			User loginUser = (User) httpSession.getAttribute("loginUser");
-			if(loginUser==null){
+			if (loginUser == null) {
 				return "redirect:/auth/singin";
 			}
 
@@ -89,10 +127,9 @@ public class MemberController {
 			logger.info("Book: " + book.toString());
 			logger.info("borrowBook: " + borrowBook.toString());
 
-			List<BorrowBook> borrowBookList = borrowBooDao.getBorrowBookListByUserId(user);
-
-			logger.info("Total borrow list size: " + borrowBookList.size());
-			model.addAttribute("borrowBookList", borrowBookList);
+			//List<BorrowBook> borrowBookList =showBookReportByUser(user);
+			//logger.info("Total borrow list size: " + borrowBookList.size());
+			model.addAttribute("borrowBookList", showBookReportByUser(user));
 
 		} catch (Exception ex) {
 			return "Book not found: " + ex.toString();

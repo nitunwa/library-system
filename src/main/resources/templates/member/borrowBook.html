@@ -36,14 +36,35 @@
 	<div class="container">
 
 		<div class="row">
+			<div>
+				<h2 th:text="${ 'My Library Dashboard'}">loginUser</h2>
+				<h3 th:text="${ 'Welcome ' + loginUser.name}">login User</h3>
+				<!-- <h3 th:text="${hasExpairBook}" th:if="${hasExpairBook}">Expaire Book</h3> -->
 
-			<div class="col-sm-4">
 
-				<!-- Left menu -->
 
 			</div>
+			<div class="col-xs-6 col-sm-3">
+				<div class="list-group">
+					<h5>
+						<a th:href="@{/member/borrowBookReport}" class="list-group-item"
+							th:text="${ 'Total Book '+'-->'+bookTotal }"
+							th:if="${hasExpairBook}">Total Book</a>
+					</h5>
+
+					<h4><a th:href="@{/admin/createuser}" class="list-group-item"
+						th:if="${hasExpairBook}" th:text="${ 'Due Date' + ' :'+#calendars.format(expairDate,'dd MMMM yyyy')}">
+						Due Date</a>
+						 <a href="#" class="list-group-item">Link</a></h4>
+				</div>
+			</div>
+
+			<!-- Left menu -->
+
+
+
 			<div class="col-sm-8">
-				<h1 th:text="${ 'Welcome ' + loginUser.name}">loginUser</h1>
+				<!-- right menu -->
 
 
 				<div class="row">
@@ -97,7 +118,8 @@
 
 						</div>
 
-						<button type="submit" class="btn btn-primary">Save</button>
+						<button type="submit" class="btn btn-primary"
+							th:if="${hasExpairBook}">Save</button>
 						<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
 					</form>
 				</div>
@@ -108,6 +130,7 @@
 
 
 	</div>
+
 
 
 

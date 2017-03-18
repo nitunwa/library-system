@@ -1,4 +1,5 @@
 package com.systemlibrary.models;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,7 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository  
 @Transactional
 public class BorrowBooDao {
 
@@ -33,13 +34,39 @@ public class BorrowBooDao {
 		return borrowBookList;
 	}
 	
+	
+	
 	public Long totalBorrowBook(User user)
 	{
-		String sql="select count(bb.id) from BorrowBook bb where  bb.borrrowUser.id=:id";
-		Long num = ((Number)entityManager.createQuery(sql,Number.class ).setParameter("id", user.getId())
+	
+	
+		// select count(*) from BorrowBook bb where bb.borrrowUserId=3;(user how many book got)
+		
+		//String sql="select count(bb.id) from BorrowBook bb where  bb.borrrowUser.id=:id";(how many book(id=20) left)[member]
+		
+		//String sql="select count(bb.id) from BorrowBook bb where  bb.borrowBook.id=20";
+		
+	    String sql="select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id";
+		Long bookTotal= ((Number)entityManager.createQuery(sql,Number.class ).setParameter("id", user.getId())
                 .getSingleResult()).longValue();
-		return num;
+		return bookTotal;
 	}
 	
+	public Boolean hasExpairBooks(User user,Date remainderDate)
+	{
+		String sql="select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id and bb.checkOut<= :remainderDate";
+		Long totalExpairBook= ((Number)entityManager.createQuery(sql,Number.class )
+							  .setParameter("id", user.getId())
+							  .setParameter("remainderDate", remainderDate)
+                               .getSingleResult())
+				               .longValue();
+		if(totalExpairBook == 0){
+			return false;
+		}
+		else{
+			return true;
+		}
+		
+	}
 	
 }
