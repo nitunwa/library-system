@@ -49,10 +49,10 @@
 					<h5>
 						<a th:href="@{/member/borrowBookReport}" class="list-group-item"
 							th:text="${ 'Total Book '+'-->'+bookTotal }"
-							th:if="${hasExpairBook}">Total Book</a>
+							>Total Book</a>
 					</h5>
 
-					<h4><a th:href="@{/admin/createuser}" class="list-group-item"
+					<h4><a th:href="@{/member/expairBookReportByUser}" class="list-group-item"
 						th:if="${hasExpairBook}" th:text="${ 'Due Date' + ' :'+#calendars.format(expairDate,'dd MMMM yyyy')}">
 						Due Date</a>
 						 <a href="#" class="list-group-item">Link</a></h4>
@@ -81,6 +81,7 @@
 										<th>Author Name</th>
 										<th>Category</th>
 										<th>Edition</th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -119,7 +120,7 @@
 						</div>
 
 						<button type="submit" class="btn btn-primary"
-							th:if="${hasExpairBook}">Save</button>
+							th:if="${not hasExpairBook}">Save</button>
 						<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
 					</form>
 				</div>

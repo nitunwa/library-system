@@ -38,9 +38,7 @@
 		<div class="row">
 
 			<div class="col-md-6">
-			<form action="/admin/createuser" method="get" autocomplete="off">
 				<div class="table table-bordered">
-				
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -49,34 +47,24 @@
 								<th>author Name</th>
 								<th>User Name</th>
 								<th>Checkout</th>
-								<th>Return</th>
-								
 								
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="borrow,iterationStatus  : ${borrowBookList}">
+							<tr th:each="borrow,iterationStatus  : ${expairBookList}">
 								
 								<td th:text="${borrow.id}"></td>
 								<td th:text="${borrow.borrowBook.bookName}">book name</td>
 								<td th:text="${borrow.borrowBook.author}">author name</td>
 								<td th:text="${borrow.borrrowUser.name}">name</td>
 								<td th:text="${borrow.checkOut}">checkOut</td>
-								
-								<td><input type="checkbox" name="returnDate" value="date"></td>
 						 
 								</tr>
 							</tbody>
 					</table>
-					
-				</div>
-				<button type="submit" class="btn btn-primary"  >Return</button>
-					</form>
-				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
 			</div>
-			
 		</div>
-		
 </div>
 		<!-- Bootstrap core JavaScript
     ================================================== -->
