@@ -38,7 +38,9 @@
 		<div class="row">
 
 			<div class="col-md-6">
+			<form action="/member/returnBorrowBook" method="post" autocomplete="off">
 				<div class="table table-bordered">
+				
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -46,7 +48,8 @@
 								<th>Book Name</th>
 								<th>author Name</th>
 								<th>User Name</th>
-								<th>Checkout</th>
+								<th>CheckIn</th>
+								<th>Return</th>
 								
 							</tr>
 						</thead>
@@ -57,12 +60,15 @@
 								<td th:text="${borrow.borrowBook.bookName}">book name</td>
 								<td th:text="${borrow.borrowBook.author}">author name</td>
 								<td th:text="${borrow.borrrowUser.name}">name</td>
-								<td th:text="${borrow.checkOut}">checkOut</td>
-						 
+								<td th:text="${borrow.checkIn}">checkIn</td>
+						        <td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
 								</tr>
 							</tbody>
 					</table>
+					
 				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+				<button type="submit" class="btn btn-primary"  >Return</button>
+					</form>
 			</div>
 		</div>
 </div>

@@ -80,6 +80,20 @@ public class MemberController {
 		logger.info("Total borrow book : " + Total);
 		model.addAttribute("bookTotal", Total);
 
+		/* show later due book */
+
+		Date laterDueDate = addDays(new Date(), 2);
+		Long laterDue = borrowBooDao.totalLaterExpairBorrowBook(user, laterDueDate);
+		model.addAttribute("laterExTotalBorrowBook", laterDue);
+		logger.info("Total later due book : " + laterDue);
+
+		/* show the total expair borrow book */
+
+		Date expairDate1 = addDays(new Date(), 2);
+		Long totalExBook = borrowBooDao.totalExpairBorrowBook(user, expairDate1);
+		logger.info("Total expair borrow book : " + totalExBook);
+		model.addAttribute("exTotalBorrowBook", totalExBook);
+
 		/* check the expiration date */
 		Date today = new Date();
 		Date twoDay = addDays(today, 2);
@@ -95,10 +109,40 @@ public class MemberController {
 		return "member/borrowBook";
 	}
 
-	@RequestMapping(value = "/borrowBook", method = RequestMethod.POST)
-	public String borrowBook(Model model, @RequestParam(value = "bookId") Long bookId,
-
+	@RequestMapping(value = "/returnBorrowBook", method = RequestMethod.POST)
+	public String returnBorrowBook(Model model, @RequestParam(value = "returnBorrowId") Long[] returnBorrowIds,
 			HttpSession httpSession) {
+		logger.info("return book list: " + returnBorrowIds.length);
+		try {
+			for (Long borrowBookId : returnBorrowIds) {
+				logger.info("borrowBook Id : " + borrowBookId);
+				BorrowBook borrowBook = new BorrowBook();
+				borrowBook.setId(borrowBookId);
+				borrowBooDao.updateReturnBorrowBookList(borrowBook);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/member/borrowBookReport";
+
+	}
+
+	public void returnBorrowBook(Long[] returnBorrowIds) {
+		try {
+			for (Long borrowBookId : returnBorrowIds) {
+				logger.info("borrowBook Id : " + borrowBookId);
+				BorrowBook borrowBook = new BorrowBook();
+				borrowBook.setId(borrowBookId);
+				borrowBooDao.updateReturnBorrowBookList(borrowBook);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/borrowBook", method = RequestMethod.POST)
+	public String borrowBook(Model model, @RequestParam(value = "bookId") Long bookId, HttpSession httpSession) {
 		Book book = new Book();
 		BorrowBook borrowBook = new BorrowBook();
 		User user = new User();
@@ -159,8 +203,21 @@ public class MemberController {
 		Date epairdate = addDays(date, 2);
 		List<BorrowBook> expairBookList = borrowBooDao.getExpairBooksList(user, epairdate);
 		model.addAttribute("expairBookList", expairBookList);
-		logger.info("Total Expair Book list size: " +expairBookList.size());
+		logger.info("Total Expair Book list size: " + expairBookList.size());
 		return "member/expairBookList";
+	}
+
+	/* show later due book list */
+
+	@RequestMapping(value = "/laterDueBookReportByUser", method = RequestMethod.GET)
+	public String totalLaterExpairBorrowBook(Model model, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("loginUser");
+		Date date = new Date();
+		Date laterDueDate = addDays(date, 2);
+		List<BorrowBook> laterDueBookList = borrowBooDao.getlaterDueBorrowBookList(user, laterDueDate);
+		model.addAttribute("laterDueBookList", laterDueBookList);
+		logger.info("Total Later Due Book list size: " + laterDueBookList.size());
+		return "member/laterDueBookList";
 	}
 
 }

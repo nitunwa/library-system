@@ -51,32 +51,26 @@
 								<th>CheckIn</th>
 								<th>Return</th>
 								
-								
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="borrow,iterationStatus  : ${borrowBookList}">
+							<tr th:each="borrow,iterationStatus  : ${laterDueBookList}">
 								
 								<td th:text="${borrow.id}"></td>
 								<td th:text="${borrow.borrowBook.bookName}">book name</td>
 								<td th:text="${borrow.borrowBook.author}">author name</td>
 								<td th:text="${borrow.borrrowUser.name}">name</td>
 								<td th:text="${borrow.checkIn}">checkIn</td>
-								
-								<td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
-						 
+						        <td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
 								</tr>
 							</tbody>
 					</table>
 					
-				</div>
+				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
 				<button type="submit" class="btn btn-primary"  >Return</button>
 					</form>
-				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->
 			</div>
-			
 		</div>
-		
 </div>
 		<!-- Bootstrap core JavaScript
     ================================================== -->

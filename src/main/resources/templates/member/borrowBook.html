@@ -48,14 +48,19 @@
 				<div class="list-group">
 					<h5>
 						<a th:href="@{/member/borrowBookReport}" class="list-group-item"
-							th:text="${ 'Total Book '+'-->'+bookTotal }"
-							>Total Book</a>
+							th:text="${ 'Checked out '+'-->'+bookTotal }">Total
+							Book</a>
 					</h5>
 
-					<h4><a th:href="@{/member/expairBookReportByUser}" class="list-group-item"
-						th:if="${hasExpairBook}" th:text="${ 'Due Date' + ' :'+#calendars.format(expairDate,'dd MMMM yyyy')}">
-						Due Date</a>
-						 <a href="#" class="list-group-item">Link</a></h4>
+					<h5>
+						<a class="list-group-item" th:if="${hasExpairBook}"
+							th:text="${ 'Due Date:' + '   '+#calendars.format(expairDate,'dd MMMM yyyy')}">Due Date</a> 
+							<a th:href="@{/member/expairBookReportByUser}" class="list-group-item"
+							th:text="${'Due Soon:'+'  ' + exTotalBorrowBook}"></a>
+							<a th:href="@{/member/laterDueBookReportByUser}" class="list-group-item"
+							th:text="${'Due later:'+'  ' + laterExTotalBorrowBook}"></a>
+					</h5>
+
 				</div>
 			</div>
 
@@ -81,7 +86,7 @@
 										<th>Author Name</th>
 										<th>Category</th>
 										<th>Edition</th>
-										
+
 									</tr>
 								</thead>
 								<tbody>

@@ -24,7 +24,19 @@ public class BorrowBooDao {
 		entityManager.persist(borrowBook);
 		return;
 	}
-
+	
+	/**
+	 *  update return book list
+	 */
+	
+	public Boolean updateReturnBorrowBookList(BorrowBook borrowBook) {
+		
+		BorrowBook	borrowBookDb=	entityManager.find(BorrowBook.class, borrowBook.getId());
+		borrowBookDb.setReturnDate(new Date());
+	    entityManager.merge(borrowBookDb);
+	    return true;
+	  }
+	 
 	public List<BorrowBook> getBorrowBookListByUserId(User user) {
 		String sql = "SELECT bb FROM BorrowBook bb "
 				+ "JOIN FETCH bb.borrrowUser u JOIN FETCH bb.borrowBook "
@@ -34,6 +46,8 @@ public class BorrowBooDao {
 		System.out.println("BorrowBooDao.getBorrowBookListByUserId()" + borrowBookList.size());
 		return borrowBookList;
 	}
+	
+	
 
 	public Long totalBorrowBook(User user) {
 
@@ -51,6 +65,34 @@ public class BorrowBooDao {
 		Long bookTotal = ((Number) entityManager.createQuery(sql, Number.class).setParameter("id", user.getId())
 				.getSingleResult()).longValue();
 		return bookTotal;
+	}
+	
+	
+	public Long totalExpairBorrowBook(User user,Date expairDate){
+		String sql= "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id  and bb.checkIn<= :expairDate "
+				+ " and  bb.returnDate = null";
+		Long exTotalBorrowBook =((Number) entityManager.createQuery(sql, Number.class).
+				setParameter("id", user.getId()).setParameter("expairDate", expairDate)
+				.getSingleResult()).longValue();
+		
+		return exTotalBorrowBook;
+	}
+	public Long totalLaterExpairBorrowBook(User user,Date laterDueDate){
+		String sql= "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id  and bb.checkIn>= :laterDueDate "
+				+ " and  bb.returnDate = null";
+		Long laterExTotalBorrowBook =((Number) entityManager.createQuery(sql, Number.class).
+				setParameter("id", user.getId()).setParameter("laterDueDate", laterDueDate)
+				.getSingleResult()).longValue();
+		
+		return laterExTotalBorrowBook;
+	}
+	public List<BorrowBook> getlaterDueBorrowBookList(User user,Date laterDueDate){
+		String sql= "select bb from  BorrowBook bb where  bb.borrrowUser.id=:id  and bb.checkIn>= :laterDueDate "
+				+ " and  bb.returnDate = null";
+		List<BorrowBook> laterDueBookList = entityManager.createQuery(sql, BorrowBook.class)
+				.setParameter("id", user.getId()).setParameter("laterDueDate", laterDueDate).getResultList();
+		
+		return laterDueBookList;
 	}
 
 	public Boolean hasExpairBooks(User user, Date remainderDate) {
