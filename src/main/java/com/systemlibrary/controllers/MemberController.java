@@ -48,6 +48,10 @@ public class MemberController {
 		logger.info("Total borrow list size: " + borrowBookList.size());
 		return borrowBookList;
 	}
+	
+	// Book list for all user
+
+	
 
 	@RequestMapping(value = "/borrowBookReport", method = RequestMethod.GET)
 	public String showborrowBookReport(Model model, HttpSession httpSession) {
@@ -97,7 +101,7 @@ public class MemberController {
 		/* check the expiration date */
 		Date today = new Date();
 		Date twoDay = addDays(today, 2);
-		Boolean hasExpairBook = borrowBooDao.hasExpairBooks(user, twoDay);
+		Boolean hasExpairBook = borrowBooDao.hasExpairBooks(user);
 		model.addAttribute("hasExpairBook", hasExpairBook);
 		logger.info("Total borrow book : " + hasExpairBook);
 
@@ -110,9 +114,10 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/returnBorrowBook", method = RequestMethod.POST)
-	public String returnBorrowBook(Model model, @RequestParam(value = "returnBorrowId") Long[] returnBorrowIds,
-			HttpSession httpSession) {
+	public String returnBorrowBook(Model model, @RequestParam(value = "borrowBookId") Long[] returnBorrowIds,
+			@RequestParam(value = "borrowBookReportType") String borrowBookReportType, HttpSession httpSession) {
 		logger.info("return book list: " + returnBorrowIds.length);
+		logger.info("report type :" +borrowBookReportType);
 		try {
 			for (Long borrowBookId : returnBorrowIds) {
 				logger.info("borrowBook Id : " + borrowBookId);
@@ -122,6 +127,13 @@ public class MemberController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if ("laterBorrowBook".equals(borrowBookReportType)) {
+			return "redirect:/member/laterDueBookReportByUser";
+		} else if ("expireBorrowBook".equals(borrowBookReportType)) {
+			return "redirect:/member/expairBookReportByUser";
+		} else if ("normalBorrowBook".equals(borrowBookReportType)) {
+			return "redirect:/member/borrowBookReport";
 		}
 
 		return "redirect:/member/borrowBookReport";
@@ -186,6 +198,32 @@ public class MemberController {
 		// +borrowBook.toString();
 		return "member/borrowBookReport";
 	}
+
+	// renew book
+	@RequestMapping(value = "/renewBorrowBook", method = RequestMethod.POST)
+	public String renewBorrowBook(Model model, @RequestParam(value = "borrowBookId") Long[] renewBorrowId,
+			HttpSession httpSession) {
+
+		logger.info("return book list: " + renewBorrowId.length);
+		BorrowBook borrowBook = new BorrowBook();
+		User user = new User();
+
+		try {
+			for (Long borrowBookId : renewBorrowId) {
+				logger.info(" Renew borrowBook Id : " + borrowBookId);
+				borrowBook.setId(borrowBookId);
+				borrowBooDao.renewBorrowBook(borrowBook);
+			}
+
+			model.addAttribute("borrowBookList", showBookReportByUser(user));
+
+		} catch (Exception ex) {
+			return "Book not found: " + ex.toString();
+		}
+		return "redirect:/member/borrowBookReport";
+	}
+
+	// renew the book
 
 	public Date addDays(Date date, int days) {
 		Calendar cal = Calendar.getInstance();

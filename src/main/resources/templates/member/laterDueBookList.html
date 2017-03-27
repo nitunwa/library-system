@@ -39,6 +39,7 @@
 
 			<div class="col-md-6">
 			<form action="/member/returnBorrowBook" method="post" autocomplete="off">
+				<input type="hidden" name="borrowBookReportType"   value="laterBorrowBook" />
 				<div class="table table-bordered">
 				
 					<table class="table table-striped">
@@ -61,7 +62,7 @@
 								<td th:text="${borrow.borrowBook.author}">author name</td>
 								<td th:text="${borrow.borrrowUser.name}">name</td>
 								<td th:text="${borrow.checkIn}">checkIn</td>
-						        <td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
+						        <td><input type="checkbox" th:name="borrowBookId"  th:value="${borrow.id}"></td>
 								</tr>
 							</tbody>
 					</table>

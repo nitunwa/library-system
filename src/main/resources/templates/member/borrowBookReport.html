@@ -39,6 +39,7 @@
 
 			<div class="col-md-6">
 			<form action="/member/returnBorrowBook" method="post" autocomplete="off">
+			<input type="hidden" name="borrowBookReportType"   value="normalBorrowBook" />
 				<div class="table table-bordered">
 				
 					<table class="table table-striped">
@@ -49,7 +50,7 @@
 								<th>author Name</th>
 								<th>User Name</th>
 								<th>CheckIn</th>
-								<th>Return</th>
+								
 								
 								
 							</tr>
@@ -63,7 +64,8 @@
 								<td th:text="${borrow.borrrowUser.name}">name</td>
 								<td th:text="${borrow.checkIn}">checkIn</td>
 								
-								<td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
+								 <td><input type="checkbox" th:name="borrowBookId"  th:value="${borrow.id}"></td> 
+								
 						 
 								</tr>
 							</tbody>
@@ -71,6 +73,7 @@
 					
 				</div>
 				<button type="submit" class="btn btn-primary"  >Return</button>
+				
 					</form>
 				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->
 			</div>

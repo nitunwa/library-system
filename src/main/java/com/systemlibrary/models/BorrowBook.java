@@ -1,5 +1,6 @@
 package com.systemlibrary.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -30,6 +31,20 @@ public class BorrowBook {
 	private Date checkOut;
 	private Date checkIn;
 	private Date returnDate;
+	
+	
+	
+	//private String reportBook;
+
+	//public String getReportBook() {
+		//return reportBook;
+	//}
+
+	//public void setReportBook(String reportBook) {
+		//this.reportBook = reportBook;
+	//}
+
+	
 
 	public Date getReturnDate() {
 		return returnDate;

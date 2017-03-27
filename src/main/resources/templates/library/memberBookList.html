@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Theme Template for Bootstrap</title>
+
+<!-- Bootstrap core CSS -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+
+
+
+<!-- Bootstrap theme -->
+
+<link href="../static/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"
+	media="screen" />
+
+<!-- Custom styles for this template -->
+
+
+<link href="../static/css/theme.css" th:href="@{/css/theme.css}"
+	rel="stylesheet" media="screen" />
+
+</head>
+<body>
+	<h1 th:text="${error}"></h1>
+	<!-- Fixed navbar -->
+	<div class="container theme-showcase" role="main">
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<form action="/member/returnBorrowBook" method="post"
+					autocomplete="off">
+					<input type="hidden" name="borrowBookReportType"
+						value="normalBorrowBook" />
+					<div class="table table-bordered">
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>User Email</th>
+									<th>Total Book</th>
+
+
+
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="borrowDto,iterationStatus  : ${memberBookDtoList}">
+
+									<td th:text="${borrowDto.user.id}"></td>
+									<td th:text="${borrowDto.user.email}">user email</td>
+									<!-- <td th:text="${borrowDto.totalnumbook}">total number book</td> -->
+									<td><a
+										th:href="@{/library/singleMemBorrowBook(userEmail=${borrowDto.user.email})}"
+										th:text="${borrowDto.totalnumbook}">total number book</a></td>
+									<!-- <td><input type="checkbox" th:name="borrowBookId"  th:value="${borrow.id}"></td>  -->
+
+
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<a class="btn  btn-default" th:href="@{/library/showDashboard}">Back</a>
+
+				</form>
+				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->
+			</div>
+
+		</div>
+
+	</div>
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script src="../static/js/bootstrap.min.js"
+		th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

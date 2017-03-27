@@ -55,10 +55,12 @@
 					<h5>
 						<a class="list-group-item" th:if="${hasExpairBook}"
 							th:text="${ 'Due Date:' + '   '+#calendars.format(expairDate,'dd MMMM yyyy')}">Due Date</a> 
-							<a th:href="@{/member/expairBookReportByUser}" class="list-group-item"
+							
+						<a class="list-group-item" th:if="${hasExpairBook}" th:href="@{/member/expairBookReportByUser}" 
 							th:text="${'Due Soon:'+'  ' + exTotalBorrowBook}"></a>
-							<a th:href="@{/member/laterDueBookReportByUser}" class="list-group-item"
-							th:text="${'Due later:'+'  ' + laterExTotalBorrowBook}"></a>
+							
+						<a th:href="@{/member/laterDueBookReportByUser}" class="list-group-item"
+							th:text="${'Next Due:'+'  ' + laterExTotalBorrowBook}"></a>
 					</h5>
 
 				</div>

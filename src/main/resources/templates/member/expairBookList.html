@@ -38,7 +38,8 @@
 		<div class="row">
 
 			<div class="col-md-6">
-			<form action="/member/returnBorrowBook" method="post" autocomplete="off">
+			<form action="#" method="post" name="borrowBookForm" autocomplete="off">
+				<input type="hidden" name="borrowBookReportType"   value="expireBorrowBook" />
 				<div class="table table-bordered">
 				
 					<table class="table table-striped">
@@ -49,7 +50,7 @@
 								<th>author Name</th>
 								<th>User Name</th>
 								<th>CheckIn</th>
-								<th>Return</th>
+								
 								
 							</tr>
 						</thead>
@@ -60,14 +61,15 @@
 								<td th:text="${borrow.borrowBook.bookName}">book name</td>
 								<td th:text="${borrow.borrowBook.author}">author name</td>
 								<td th:text="${borrow.borrrowUser.name}">name</td>
-								<td th:text="${borrow.checkIn}">checkIn</td>
-						        <td><input type="checkbox" th:name="returnBorrowId"  th:value="${borrow.id}"></td>
+								<td th:text="${borrow.checkIn}">checkIn</td> 
+						        <td><input type="checkbox" th:name="borrowBookId"  th:value="${borrow.id}"></td>
 								</tr>
 							</tbody>
 					</table>
 					
 				</div><!-- <a class="btn  btn-default" th:href="" >Back</a> -->
-				<button type="submit" class="btn btn-primary"  >Return</button>
+				<button type="button" class="btn btn-primary"  onclick="chgAction('returnAction')" >Return</button>
+				<button type="button" class="btn btn-primary" onclick="chgAction('renewAction')"  >Renew</button>
 					</form>
 			</div>
 		</div>
@@ -81,5 +83,24 @@
 
 		<script src="../static/js/bootstrap.min.js"
 			th:src="@{/js/bootstrap.min.js}"></script>
+			<script type="text/javascript">
+			function chgAction( action_name )
+			{
+			    if( action_name=="returnAction" ) {
+			        document.borrowBookForm.action = "/member/returnBorrowBook";
+			        alert("returnAction");
+			        document.borrowBookForm.submit();
+			    }
+			    else if( action_name=="renewAction" ) {
+			        document.borrowBookForm.action = "/member/renewBorrowBook";
+			        alert("renewAction");
+			        document.borrowBookForm.submit();
+			    }else{
+			    	
+			    	
+			    }
+			   
+			}
+			</script>
 </body>
 </html>

@@ -1,5 +1,9 @@
 package com.systemlibrary.controllers;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.systemlibrary.models.Book;
 import com.systemlibrary.models.BookDao;
+import com.systemlibrary.models.BorrowBooDao;
+import com.systemlibrary.models.BorrowBookDto;
 import com.systemlibrary.models.User;
 import com.systemlibrary.models.UserDao;
 
@@ -26,6 +32,9 @@ public class LibrarianController {
 	
 	@Autowired
 	private BookDao bookDao;
+	@Autowired
+	private BorrowBooDao borrowBooDao;
+	
 	
 	
 	@RequestMapping(value="/showDashboard",method=RequestMethod.GET)
@@ -55,6 +64,49 @@ public class LibrarianController {
 	@RequestMapping(value="/createBook",method=RequestMethod.GET)
 	public String createBook(Model model) {
 		return "library/addBook";
+	}
+	
+	//show all member's total number of book
+	@RequestMapping(value="/memberTotalBorrowBook",method=RequestMethod.GET)
+
+	public String getMemberBorrowBookList(Model model,HttpSession httpSession) {
+		List<BorrowBookDto> borrowDto ;
+		try{
+			  borrowDto = borrowBooDao.getAllMemberBorrowBookList();
+			logger.info("total number of book:"+ borrowDto.size());
+			model.addAttribute("memberBookDtoList", borrowDto);
+			
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return "Book not found: " + ex.toString();
+		}
+		
+		
+		return "library/memberBookList";
+	}
+	
+	//single member book list
+	@RequestMapping(value="/singleMemBorrowBook",method=RequestMethod.GET)
+	
+	public String getSingleMemBorrowBookList(Model model,HttpSession httpSession,@RequestParam(value = "userEmail") String useremail) {
+		List<BorrowBookDto> borrowDtosingle ;
+	
+		try{
+			User user ;
+			user = userDao.getByEmail(useremail);
+			borrowDtosingle = borrowBooDao.getSingleMemberBorrowBookList(user);
+			logger.info("One member's number of book:"+ borrowDtosingle.size());
+			model.addAttribute("singleMemBookDtoList", borrowDtosingle);
+			
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			return "Book not found: " + ex.toString();
+		}
+		
+		
+		return "library/singleMemberBookList";
 	}
 	
 	@RequestMapping(value = "/createBook",method=RequestMethod.POST)
