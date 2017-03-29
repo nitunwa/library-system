@@ -38,7 +38,14 @@ public class LibrarianController {
 	
 	
 	@RequestMapping(value="/showDashboard",method=RequestMethod.GET)
-	public String showDashboard(Model model) {
+	public String showDashboard(Model model ,HttpSession httpSession) {
+		User loginUser = (User) httpSession.getAttribute("loginUser");
+		if (loginUser == null) {
+			return "redirect:/auth/singin";
+		}
+
+		
+		model.addAttribute("loginUser", loginUser);
 		return "library/libraryDashbord";
 	}
 	

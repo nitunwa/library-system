@@ -72,7 +72,7 @@ public class BorrowBooDao {
 		return borrowBookList;
 	}
 
-	// total borrow book number
+	// total borrow book number (like-checked out --->5 url==member/borrowBook)
 	public Long totalBorrowBook(User user) {
 
 		String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id "
@@ -83,15 +83,15 @@ public class BorrowBooDao {
 
 	} // end total borrow book number
 
-	// total due soon book number
-	public Long totalExpairBorrowBook(User user, Date expairDate) {
-		String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id  and bb.checkIn<= :expairDate "
+	// total reminder(due soon) book number
+	public Long dueSoonExpairBorrowBookNumber(User user, Date reminderDate) {
+		String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id  and bb.checkIn >= :dueSoonExpairDate "
 				+ " and  bb.returnDate = null";
 		Long exTotalBorrowBook = ((Number) entityManager.createQuery(sql, Number.class).setParameter("id", user.getId())
-				.setParameter("expairDate", expairDate).getSingleResult()).longValue();
+				.setParameter("dueSoonExpairDate", reminderDate).getSingleResult()).longValue();
 
 		return exTotalBorrowBook;
-	}
+	}  // total reminder(due soon) book number
 
 	// total next due book number
 	public Long totalLaterExpairBorrowBook(User user, Date laterDueDate) {
@@ -178,7 +178,7 @@ public class BorrowBooDao {
 		for (Object[] objArry : singleMemBookObjList) {
 			BorrowBookDto bdto = new BorrowBookDto();
 			User user = new User();
-			Book book = new Book();
+			Book book = new Book();  
 			user.setId(new Long(objArry[0].toString()));
 			user.setEmail(objArry[1].toString());
             book.setBookName(objArry[2].toString());

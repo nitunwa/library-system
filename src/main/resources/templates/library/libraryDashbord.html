@@ -29,38 +29,51 @@
 
 </head>
 
-  <body>
+<body>
 
-    <!-- Fixed navbar -->
-    
-<div class="container">
+	<!-- Fixed navbar -->
 
-    <form action="/library/showDashboard" method="post" autocomplete="off">
-  <div class="form-group">
-   <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <h4><a th:href="@{/library/createmember}">Create Member</a></h4>
-              <h4><a th:href="@{/library/createBook}">Add Book</a></h4>
-              <h4><a th:href="@{/library/memberTotalBorrowBook}">Member Book List</a></h4>
-             <!--  <a class="btn  btn-default" th:href="@{/report/main}" >Report</a>-->
-   </div>
-   
-   
-   </div>
-   </div>
- 
-  
-  
-  </form>
-    </div> <!-- /container -->
-   
-    <!-- Bootstrap core JavaScript
+	<div class="container">
+		<div>
+			<h3 th:text="${ ' Library Dashbord For Librarain'}">loginUser</h3>
+			<h3 th:text="${ 'Welcome ' + loginUser.name}">login User</h3>
+			<br>
+		</div>
+
+		<form action="/library/showDashboard" method="post" autocomplete="off">
+			<div class="form-group">
+				<div class="row placeholders">
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4>
+							<a th:href="@{/library/createmember}">Create Member</a>
+						</h4>
+						<h4>
+							<a th:href="@{/library/createBook}">Add Book</a>
+						</h4>
+						<h4>
+							<a th:href="@{/library/memberTotalBorrowBook}">Member Book
+								List</a>
+						</h4>
+						<!--  <a class="btn  btn-default" th:href="@{/report/main}" >Report</a>-->
+					</div>
+
+
+				</div>
+			</div>
+
+
+
+		</form>
+	</div>
+	<!-- /container -->
+
+	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	
+
 	<script src="../static/js/bootstrap.min.js"
-	th:src="@{/js/bootstrap.min.js}"></script>
+		th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

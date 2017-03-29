@@ -36,7 +36,10 @@
 	<div class="container theme-showcase" role="main">
 
 		<div class="row">
-
+			<div>
+				<h3 th:text="${ ' Number Of book List For One Single Member'}">loginUser</h3>
+				<br>
+			</div>
 			<div class="col-md-6">
 				<form action="/member/returnBorrowBook" method="post"
 					autocomplete="off">
@@ -47,7 +50,7 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-								    <th>#</th>
+									<th>#</th>
 									<th>User Email</th>
 									<th>Book Name</th>
 									<th>Total Name</th>
@@ -57,13 +60,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="borrowDtosingle,iterationStatus  : ${singleMemBookDtoList}">
+								<tr
+									th:each="borrowDtosingle,iterationStatus  : ${singleMemBookDtoList}">
 
 									<td th:text="${borrowDtosingle.user.id}"></td>
 									<td th:text="${borrowDtosingle.user.email}">user email</td>
 									<td th:text="${borrowDtosingle.book.bookName}">book name</td>
-									<td th:text="${borrowDtosingle.totalnumbook}">total number book</td>
-									
+									<td th:text="${borrowDtosingle.totalnumbook}">total number
+										book</td>
+
 
 									<!-- <td><input type="checkbox" th:name="borrowBookId"  th:value="${borrow.id}"></td>  -->
 
@@ -73,7 +78,8 @@
 						</table>
 
 					</div>
-					<a class="btn  btn-default" th:href="@{/library/memberTotalBorrowBook}">Back</a>
+					<a class="btn  btn-default"
+						th:href="@{/library/memberTotalBorrowBook}">Back</a>
 
 				</form>
 				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->

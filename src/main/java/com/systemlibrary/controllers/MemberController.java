@@ -1,11 +1,13 @@
 package com.systemlibrary.controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
 import com.systemlibrary.models.Book;
 import com.systemlibrary.models.BookDao;
 import com.systemlibrary.models.BorrowBooDao;
@@ -48,18 +51,37 @@ public class MemberController {
 		logger.info("Total borrow list size: " + borrowBookList.size());
 		return borrowBookList;
 	}
-	
-	// Book list for all user
 
-	
 
+	/*book list for expair, due soon, later due    */
 	@RequestMapping(value = "/borrowBookReport", method = RequestMethod.GET)
 	public String showborrowBookReport(Model model, HttpSession httpSession) {
-		/*  */
+		
 
 		User user = (User) httpSession.getAttribute("loginUser");
 		List<BorrowBook> borrowBookList = showBookReportByUser(user);
-		model.addAttribute("borrowBookList", borrowBookList);
+		List<BorrowBook> borrowBookListLaterDue = new ArrayList<BorrowBook>();
+		List<BorrowBook> borrowBookListDueSoon = new ArrayList<BorrowBook>();
+		List<BorrowBook> borrowBookListExpire = new ArrayList<BorrowBook>();
+		Date today = new Date();
+		for (BorrowBook borrowBook : borrowBookList) {
+			Date checkInDate = borrowBook.getCheckIn();
+		
+			LocalDate dateStart = new LocalDate(today.getYear(), today.getMonth() + 1, today.getDate());
+			LocalDate dateEnd = new LocalDate(checkInDate.getYear(), checkInDate.getMonth() + 1, checkInDate.getDate());
+			int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
+			if (totalDays < 0) {
+				borrowBookListExpire.add(borrowBook);
+			} else if ((totalDays >= 0) && (totalDays <= 2)) {
+				borrowBookListDueSoon.add(borrowBook);
+			} else if (totalDays > 2) {
+				borrowBookListLaterDue.add(borrowBook);
+			}
+
+		}
+		model.addAttribute("borrowBookListExpire", borrowBookListExpire);
+		model.addAttribute("borrowBookListLaterDue", borrowBookListLaterDue);
+		model.addAttribute("borrowBookListDueSoon", borrowBookListDueSoon);
 		return "member/borrowBookReport";
 	}
 
@@ -91,12 +113,11 @@ public class MemberController {
 		model.addAttribute("laterExTotalBorrowBook", laterDue);
 		logger.info("Total later due book : " + laterDue);
 
-		/* show the total expair borrow book */
-
-		Date expairDate1 = addDays(new Date(), 2);
-		Long totalExBook = borrowBooDao.totalExpairBorrowBook(user, expairDate1);
-		logger.info("Total expair borrow book : " + totalExBook);
-		model.addAttribute("exTotalBorrowBook", totalExBook);
+		/* show the due soon borrow book number */
+		Date reminderDate = addDays(new Date(), 2);
+		Long totalDueSoonExBook = borrowBooDao.dueSoonExpairBorrowBookNumber(user, reminderDate);
+		logger.info("Total expair borrow book : " + totalDueSoonExBook);
+		model.addAttribute("exTotalBorrowBook", totalDueSoonExBook);
 
 		/* check the expiration date */
 		Date today = new Date();
@@ -117,7 +138,7 @@ public class MemberController {
 	public String returnBorrowBook(Model model, @RequestParam(value = "borrowBookId") Long[] returnBorrowIds,
 			@RequestParam(value = "borrowBookReportType") String borrowBookReportType, HttpSession httpSession) {
 		logger.info("return book list: " + returnBorrowIds.length);
-		logger.info("report type :" +borrowBookReportType);
+		logger.info("report type :" + borrowBookReportType);
 		try {
 			for (Long borrowBookId : returnBorrowIds) {
 				logger.info("borrowBook Id : " + borrowBookId);
