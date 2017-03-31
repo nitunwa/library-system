@@ -114,8 +114,9 @@ public class MemberController {
 		logger.info("Total later due book : " + laterDue);
 
 		/* show the due soon borrow book number */
+		Date everyday = subDays( new Date(),-1);
 		Date reminderDate = addDays(new Date(), 2);
-		Long totalDueSoonExBook = borrowBooDao.dueSoonExpairBorrowBookNumber(user, reminderDate);
+		Long totalDueSoonExBook = borrowBooDao.dueSoonExpairBorrowBookNumber(user, everyday,reminderDate );
 		logger.info("Total expair borrow book : " + totalDueSoonExBook);
 		model.addAttribute("exTotalBorrowBook", totalDueSoonExBook);
 
@@ -126,12 +127,22 @@ public class MemberController {
 		model.addAttribute("hasExpairBook", hasExpairBook);
 		logger.info("Total borrow book : " + hasExpairBook);
 
-		/* show the expiration date */
+	/* show the expiration date */
+		
 		Date expairDate = addDays(today, 2);
 		model.addAttribute("expairDate", expairDate);
 		logger.info("Due Date : " + twoDay);
 
 		return "member/borrowBook";
+	}
+
+	public Date subDays(Date date, int days) {
+		logger.info("new date function");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, days); // minus number would decrement the days
+		
+		return cal.getTime();
 	}
 
 	@RequestMapping(value = "/returnBorrowBook", method = RequestMethod.POST)

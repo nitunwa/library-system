@@ -40,6 +40,7 @@
 				<h3 th:text="${ ' Number Of book List For One Single Member'}">loginUser</h3>
 				<br>
 			</div>
+			
 			<div class="col-md-6">
 				<form action="/member/returnBorrowBook" method="post"
 					autocomplete="off">
@@ -53,7 +54,7 @@
 									<th>#</th>
 									<th>User Email</th>
 									<th>Book Name</th>
-									<th>Total Name</th>
+									<th>Number Of Borrow Book</th>
 
 
 
@@ -78,8 +79,14 @@
 						</table>
 
 					</div>
+					
 					<a class="btn  btn-default"
 						th:href="@{/library/memberTotalBorrowBook}">Back</a>
+						<div>
+						<h4>
+						 <a th:href="@{/member/borrowBookReport}">Book Details</a>
+						</h4>
+						</div>
 
 				</form>
 				<!-- <a class="btn  btn-default" th:href="" >Back</a> -->

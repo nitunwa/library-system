@@ -47,19 +47,19 @@
 			<div class="col-xs-6 col-sm-3">
 				<div class="list-group">
 					<h5>
-						<a th:href="@{/member/borrowBookReport}" class="list-group-item"
+						<a th:href="@{/member/borrowBookReport}" class="list-group-item" 
 							th:text="${ 'Checked out '+'-->'+bookTotal }">Total
 							Book</a>
 					</h5>
 
 					<h5>
-						<a class="list-group-item" th:if="${hasExpairBook}"
+						<a class="list-group-item" 
 							th:text="${ 'Due Date:' + '   '+#calendars.format(expairDate,'dd MMMM yyyy')}">Due Date</a> 
 							
-						<a class="list-group-item" th:if="${hasExpairBook}" th:href="@{/member/expairBookReportByUser}" 
+						<a class="list-group-item" th:href="@{/member/expairBookReportByUser}" 
 							th:text="${'Due Soon:'+'  ' + exTotalBorrowBook}"></a>
 							
-						<a th:href="@{/member/laterDueBookReportByUser}" class="list-group-item"
+						<a th:href="@{/member/laterDueBookReportByUser}"  class="list-group-item"
 							th:text="${'Next Due:'+'  ' + laterExTotalBorrowBook}"></a>
 					</h5>
 
@@ -127,7 +127,7 @@
 						</div>
 
 						<button type="submit" class="btn btn-primary"
-							th:if="${not hasExpairBook}">Save</button>
+							th:if="${ not hasExpairBook}">Save</button>
 						<a class="btn  btn-default" th:href="@{/main}">Cancel</a>
 					</form>
 				</div>
