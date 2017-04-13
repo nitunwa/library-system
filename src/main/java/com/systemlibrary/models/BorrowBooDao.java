@@ -72,6 +72,8 @@ public class BorrowBooDao {
 		return borrowBookList;
 	}
 
+	
+
 	// total borrow book number (like-checked out --->5 url==member/borrowBook)
 	public Long totalBorrowBook(User user) {
 
@@ -83,18 +85,15 @@ public class BorrowBooDao {
 
 	} // end total borrow book number
 
-	//  reminder(due soon)  for number of borrow book
-	public Long dueSoonExpairBorrowBookNumber(User user, Date startDate, Date endDate ) {
+	// reminder(due soon) for number of borrow book
+	public Long dueSoonExpairBorrowBookNumber(User user, Date startDate, Date endDate) {
 		String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id "
-				+ "  and bb.checkIn between :startdate and :endDate "
-				+ " and  bb.returnDate = null";
+				+ "  and bb.checkIn between :startdate and :endDate " + " and  bb.returnDate = null";
 		Long exTotalBorrowBook = ((Number) entityManager.createQuery(sql, Number.class).setParameter("id", user.getId())
-				.setParameter("startdate", startDate)
-				.setParameter("endDate", endDate)
-				.getSingleResult()).longValue();
+				.setParameter("startdate", startDate).setParameter("endDate", endDate).getSingleResult()).longValue();
 
 		return exTotalBorrowBook;
-	}  // total reminder(due soon) book number
+	} // total reminder(due soon) book number
 
 	// total next due book number
 	public Long totalLaterExpairBorrowBook(User user, Date laterDueDate) {
@@ -144,8 +143,7 @@ public class BorrowBooDao {
 	public List<BorrowBookDto> getAllMemberBorrowBookList() {
 		String sql = "SELECT  bb.borrrowUserId, u.email, count(*) AS 'Total Book' " + " FROM user u "
 				+ " join borrowbook bb on u.id = bb.borrrowUserId " + " join book b on bb.borrrowBookId = b.id  "
-						+ " and bb.returnDate is  null "
-				+ " GROUP BY   bb.borrrowUserId  ";
+				+ " and bb.returnDate is  null " + " GROUP BY   bb.borrrowUserId  ";
 		List<Object[]> memberBookObjList = entityManager.createNativeQuery(sql).getResultList();
 
 		List<BorrowBookDto> memberBookDtoList = new ArrayList<BorrowBookDto>(memberBookObjList.size());
@@ -167,7 +165,6 @@ public class BorrowBooDao {
 		return memberBookDtoList;
 
 	}
-	
 
 	// show single member's name & email with total number of book
 	@SuppressWarnings("unchecked")
@@ -175,8 +172,7 @@ public class BorrowBooDao {
 		String sql = "SELECT  bb.borrrowUserId, u.email, b.bookname, count(*) AS 'Total Book' "
 				+ " FROM systemlibraryv1.user u " + " join borrowbook bb on u.id = bb.borrrowUserId "
 				+ " join book b on bb.borrrowBookId = b.id " + " where u.email = :email "
-				+ " and bb.returnDate is  null "
-				+ " GROUP BY   bb.borrrowUserId,b.bookname; ";
+				+ " and bb.returnDate is  null " + " GROUP BY   bb.borrrowUserId,b.bookname; ";
 		List<Object[]> singleMemBookObjList = entityManager.createNativeQuery(sql)
 				.setParameter("email", member.getEmail()).getResultList();
 
@@ -184,10 +180,10 @@ public class BorrowBooDao {
 		for (Object[] objArry : singleMemBookObjList) {
 			BorrowBookDto bdto = new BorrowBookDto();
 			User user = new User();
-			Book book = new Book();  
+			Book book = new Book();
 			user.setId(new Long(objArry[0].toString()));
 			user.setEmail(objArry[1].toString());
-            book.setBookName(objArry[2].toString());
+			book.setBookName(objArry[2].toString());
 			bdto.setTotalnumbook(new Integer(objArry[3].toString()));
 			bdto.setBook(book);
 			bdto.setUser(user);

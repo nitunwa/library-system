@@ -51,11 +51,16 @@ public class MemberController {
 		logger.info("Total borrow list size: " + borrowBookList.size());
 		return borrowBookList;
 	}
+	
+	
+	
+
 
 
 	/*book list for expair, due soon, later due    */
 	@RequestMapping(value = "/borrowBookReport", method = RequestMethod.GET)
-	public String showborrowBookReport(Model model, HttpSession httpSession) {
+	public String showborrowBookReport(Model model, HttpSession httpSession
+			) {
 		
 
 		User user = (User) httpSession.getAttribute("loginUser");
@@ -276,6 +281,9 @@ public class MemberController {
 		logger.info("Total Expair Book list size: " + expairBookList.size());
 		return "member/expairBookList";
 	}
+	
+	
+	
 
 	/* show later due book list */
 
