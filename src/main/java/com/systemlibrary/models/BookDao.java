@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class BookDao  {
+public class BookDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -22,6 +22,19 @@ public class BookDao  {
 	public void create(Book book) {
 		entityManager.persist(book);
 		return;
+	}
+	@SuppressWarnings("unused")
+	public Boolean isBookExist(Book newBook) {
+		try {
+			String sql = "from   Book where bookName= :bookName";
+			
+			Book existingBook = entityManager.createQuery(sql, Book.class)
+					           .setParameter("bookName", newBook.getBookName()).getSingleResult();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
 	}
 
 	/**
@@ -52,14 +65,10 @@ public class BookDao  {
 		return (Book) entityManager.createQuery("from   Book where id= :bookId").setParameter("bookId", bookId)
 				.getSingleResult();
 	}
-	
+
 	public Book getByName(String bookname) {
-		return (Book) entityManager.createQuery("from   Book where bookName= :bookName").setParameter("bookName", bookname)
-				.getSingleResult();
+		return (Book) entityManager.createQuery("from   Book where bookName= :bookName")
+				.setParameter("bookName", bookname).getSingleResult();
 	}
 
-	public void login(Book book) {
-		entityManager.merge(book);
-		return;
-	}
 }

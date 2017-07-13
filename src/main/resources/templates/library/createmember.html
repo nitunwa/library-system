@@ -35,7 +35,7 @@
     
 <div class="container">
 
-    <form action="/library/createmember" method="post" autocomplete="off" style ="max-width:250px">
+    <form th:action="@{/library/createmember}" method="post" autocomplete="off" style ="max-width:250px">
   <div class="form-group">
     <label for="exampleInputName1">Name</label>
     <input type="text" name="name"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Name">

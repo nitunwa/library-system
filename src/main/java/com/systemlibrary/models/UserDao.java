@@ -50,7 +50,7 @@ public class UserDao {
 	  }
 	
 	/**
-	   * Return the book having the passed user name.
+	   * Return the user to pass the user email.
 	   */
 	public User getByEmail(String email) {
 	    return (User) entityManager.createQuery(
@@ -60,6 +60,7 @@ public class UserDao {
 	  }
 	
 	public void login(User user) {
+	
 	    entityManager.merge(user);
 	    return;
 }

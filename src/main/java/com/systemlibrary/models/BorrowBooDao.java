@@ -72,16 +72,17 @@ public class BorrowBooDao {
 		return borrowBookList;
 	}
 
-	
-
 	// total borrow book number (like-checked out --->5 url==member/borrowBook)
 	public Long totalBorrowBook(User user) {
-
-		String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id "
-				+ " and  bb.returnDate = null";
-		Long bookTotal = ((Number) entityManager.createQuery(sql, Number.class).setParameter("id", user.getId())
-				.getSingleResult()).longValue();
-		return bookTotal;
+		try {
+			String sql = "select count(bb.id) from  BorrowBook bb where  bb.borrrowUser.id=:id "
+					+ " and  bb.returnDate = null";
+			Long bookTotal = ((Number) entityManager.createQuery(sql, Number.class).setParameter("id", user.getId())
+					.getSingleResult()).longValue();
+			return bookTotal;
+		} catch (Exception e) {
+			return 0l;
+		}
 
 	} // end total borrow book number
 

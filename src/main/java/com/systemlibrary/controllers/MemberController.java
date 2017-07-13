@@ -11,6 +11,7 @@ import org.joda.time.Days;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,17 +52,10 @@ public class MemberController {
 		logger.info("Total borrow list size: " + borrowBookList.size());
 		return borrowBookList;
 	}
-	
-	
-	
 
-
-
-	/*book list for expair, due soon, later due    */
+	/* book list for expair, due soon, later due */
 	@RequestMapping(value = "/borrowBookReport", method = RequestMethod.GET)
-	public String showborrowBookReport(Model model, HttpSession httpSession
-			) {
-		
+	public String showborrowBookReport(Model model, HttpSession httpSession) {
 
 		User user = (User) httpSession.getAttribute("loginUser");
 		List<BorrowBook> borrowBookList = showBookReportByUser(user);
@@ -71,7 +65,7 @@ public class MemberController {
 		Date today = new Date();
 		for (BorrowBook borrowBook : borrowBookList) {
 			Date checkInDate = borrowBook.getCheckIn();
-		
+
 			LocalDate dateStart = new LocalDate(today.getYear(), today.getMonth() + 1, today.getDate());
 			LocalDate dateEnd = new LocalDate(checkInDate.getYear(), checkInDate.getMonth() + 1, checkInDate.getDate());
 			int totalDays = Days.daysBetween(dateStart, dateEnd).getDays();
@@ -88,6 +82,17 @@ public class MemberController {
 		model.addAttribute("borrowBookListLaterDue", borrowBookListLaterDue);
 		model.addAttribute("borrowBookListDueSoon", borrowBookListDueSoon);
 		return "member/borrowBookReport";
+	}
+
+	@RequestMapping(value = "/getAllBook", method = RequestMethod.GET, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	@ResponseBody()
+	public List<Book> getAllBookList(Model model, HttpSession httpSession) {
+		List<Book> bookList = bookDao.getAllBook();
+		bookList.forEach(book -> book.setBorrowList(null));
+		return bookList;
+
 	}
 
 	@RequestMapping(value = "/borrowBook", method = RequestMethod.GET)
@@ -119,9 +124,9 @@ public class MemberController {
 		logger.info("Total later due book : " + laterDue);
 
 		/* show the due soon borrow book number */
-		Date everyday = subDays( new Date(),-1);
+		Date everyday = subDays(new Date(), -1);
 		Date reminderDate = addDays(new Date(), 2);
-		Long totalDueSoonExBook = borrowBooDao.dueSoonExpairBorrowBookNumber(user, everyday,reminderDate );
+		Long totalDueSoonExBook = borrowBooDao.dueSoonExpairBorrowBookNumber(user, everyday, reminderDate);
 		logger.info("Total expair borrow book : " + totalDueSoonExBook);
 		model.addAttribute("exTotalBorrowBook", totalDueSoonExBook);
 
@@ -132,8 +137,8 @@ public class MemberController {
 		model.addAttribute("hasExpairBook", hasExpairBook);
 		logger.info("Total borrow book : " + hasExpairBook);
 
-	/* show the expiration date */
-		
+		/* show the expiration date */
+
 		Date expairDate = addDays(today, 2);
 		model.addAttribute("expairDate", expairDate);
 		logger.info("Due Date : " + twoDay);
@@ -146,7 +151,7 @@ public class MemberController {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.add(Calendar.DATE, days); // minus number would decrement the days
-		
+
 		return cal.getTime();
 	}
 
@@ -281,9 +286,6 @@ public class MemberController {
 		logger.info("Total Expair Book list size: " + expairBookList.size());
 		return "member/expairBookList";
 	}
-	
-	
-	
 
 	/* show later due book list */
 

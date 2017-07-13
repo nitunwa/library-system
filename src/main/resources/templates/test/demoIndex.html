@@ -35,41 +35,35 @@
     
 <div class="container">
 
-    <form  th:action="@{/library/createBook}" method="post" autocomplete="off" style ="max-width:250px" >
+    <form action="/test/demoIndex" method="post" autocomplete="off" style ="max-width:250px" >
   <div class="form-group">
-    <label for="exampleInputName1">Book Name</label>
-    <input type="text" name="bookName"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="bookName">
+    <label for="exampleInputName1"> Name</label>
+    <input type="text" name="demoname"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Name">
     <input type="hidden" name="id"   class="form-control" id="exampleInputId" aria-describedby="idlHelp" placeholder="id" />
   </div>
  
   
    <div class="form-group">
-    <label for="exampleInputName1">Author Name</label>
-    <input type="text" name="author"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Author">
+    <label for="exampleInputName1">Email</label>
+    <input type="text" name="demoemail"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Email">
     
   </div>
   
   <div class="form-group">
-    <label for="exampleInputName1">Edition</label>
-    <input type="text" name="edition"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Edition">
+    <label for="exampleInputName1">Password</label>
+    <input type="password"  name="demopass"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Password">
     
   </div>
-  
-  <div class="form-group">
-    <label for="exampleInputName1">ISDN</label>
-    <input type="text" name="ISDN"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="ISDN">
-    
-  </div>
-  
- <div class="form-group">
-    <label for="exampleInputName1">Category</label>
+  <div class="form-group" >
+    <label for="exampleInputName1">Select State11</label>
   <!--   <input type="text" name="category"  class="form-control" id="exampleInputName" aria-describedby="namelHelp" placeholder="Category"> -->
-    <select name="category">
-    	<option value="Fiction">Fiction</option>
-    	<option value="Non Fiction">Non Fiction</option>
-    	<option value="Other">Other</option>
+    <select th:field="${state}">              
+              <option th:each="state: ${mylist}" th:value="${state.stateShortName}" th:text="${state.stateName}">State</option>
     </select>
   </div> 
+  
+  
+ 
 
     
   <button type="submit" class="btn btn-primary"  >Save</button>
