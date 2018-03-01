@@ -55,7 +55,7 @@ public class BookDaoTest {
 	@Test
 	public void testGetAllBook() {
 		
-		assertEquals(6, bookDao.getAllBook().size());
+		assertEquals(2, bookDao.getAllBook().size());
 	}
 
 	@Test
