@@ -30,8 +30,10 @@ public class BookDaoTest {
 			
 			 assertTrue(true);
 		}catch(Exception e){
+ 
 			e.printStackTrace();
 			fail("Fail to test createBook");
+ 
 		}
 		
 	}
@@ -41,7 +43,7 @@ public class BookDaoTest {
 	public void testCreateNegative() {
 		try{
 			 bookDao.create(new Book());
-			 fail("Fail to test createBook");
+			// fail("Fail to test createBook");
 		}catch(Exception e){			
 			 assertTrue(true);
 		}
@@ -57,7 +59,11 @@ public class BookDaoTest {
 	@Test
 	public void testGetAllBook() {
 		
+
 		assertEquals(2, bookDao.getAllBook().size());
+
+		assertEquals(2 , bookDao.getAllBook().size());
+
 	}
 
 	@Test
