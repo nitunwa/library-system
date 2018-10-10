@@ -36,9 +36,12 @@ public class AdminController {
 			@RequestParam(value = "password") String password,@RequestParam(value = "role") String role) {
 		try {
 			User user = new User(name,email,password,role);
+			if(name.equals("")|| email.equals("")||password.equals("")|| role.equals("")){
+				throw new Exception("Require field missing");
+			}
 			userDao.create(user);
 		} catch (Exception ex) {
-			return "Error creating the user: " + ex.toString();
+			return "admin/createUser";
 		}
 		
 		return "redirect:/admin/userListReport";

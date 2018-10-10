@@ -21,14 +21,16 @@ public class BookDaoTest {
 		Book book = new Book();
 		book.setAuthor("Fancy");
 		book.setBookName("Fancy Nancy");
-		book.setId(27l);
+		//book.setId(27l);
 		book.setCategory("Fiction");
 		
 		
 		try{
 			 bookDao.create(book);
+			
 			 assertTrue(true);
 		}catch(Exception e){
+			e.printStackTrace();
 			fail("Fail to test createBook");
 		}
 		
@@ -55,7 +57,7 @@ public class BookDaoTest {
 	@Test
 	public void testGetAllBook() {
 		
-		assertEquals(6, bookDao.getAllBook().size());
+		assertEquals(2, bookDao.getAllBook().size());
 	}
 
 	@Test

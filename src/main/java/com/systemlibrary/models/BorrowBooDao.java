@@ -40,7 +40,7 @@ public class BorrowBooDao {
 	public Boolean updateReturnBorrowBookList(BorrowBook borrowBook) {
 
 		BorrowBook borrowBookDb = entityManager.find(BorrowBook.class, borrowBook.getId());
-		borrowBookDb.setReturnDate(new Date());
+		borrowBookDb.setReturnDate(new Date());		
 		entityManager.merge(borrowBookDb);
 		return true;
 	}

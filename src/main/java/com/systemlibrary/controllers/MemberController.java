@@ -27,6 +27,8 @@ import com.systemlibrary.models.BorrowBook;
 import com.systemlibrary.models.User;
 import com.systemlibrary.models.UserDao;
 
+
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -44,6 +46,8 @@ public class MemberController {
 	public String showDashboard(Model model) {
 		return "member/memberDashboard";
 	}
+	
+
 
 	/* Book list for single user */
 
@@ -84,9 +88,13 @@ public class MemberController {
 		return "member/borrowBookReport";
 	}
 
+	@RequestMapping(value = "/dummyAjax", method = RequestMethod.GET)
+	public String dummy(Model model) {
+		return "member/dummyAjax";
+	}
+	
 	@RequestMapping(value = "/getAllBook", method = RequestMethod.GET, 
-			produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
+			produces = { MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody()
 	public List<Book> getAllBookList(Model model, HttpSession httpSession) {
 		List<Book> bookList = bookDao.getAllBook();
@@ -298,6 +306,17 @@ public class MemberController {
 		model.addAttribute("laterDueBookList", laterDueBookList);
 		logger.info("Total Later Due Book list size: " + laterDueBookList.size());
 		return "member/laterDueBookList";
+	}
+	
+	@RequestMapping(value = "/deleteUser")
+	public String deleteUser(@RequestParam(value="id") long id) {
+		try {
+			User user = new User(id);
+			userDao.delete(user);
+		} catch (Exception ex) {
+			return "Error deleting customer:" + ex.toString();
+		}
+		return "redirect:/admin/userListReport";
 	}
 
 }

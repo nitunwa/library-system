@@ -26,45 +26,82 @@
 
 <link href="../static/css/theme.css" th:href="@{/css/theme.css}"
 	rel="stylesheet" media="screen" />
-	
-	<link href="../static/css/theme.css" th:href="@{/css/signin.css}"
+
+<link href="../static/css/theme.css" th:href="@{/css/signin.css}"
 	rel="stylesheet" media="screen" />
 
 </head>
 
-  <body>
+<body>
 
-   
-    
-    
-<div class="container">
 
-      <form class="form-signin" th:action="@{/auth/singin}" method="post" style ="max-width:250px">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus><br>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
 
-    </div>
-  
-  
-  <!-- /container -->
-   
-    <!-- Bootstrap core JavaScript
+
+	<div class="container">
+
+
+		<h2 class="form-signin-heading">Please sign in</h2>
+	 <label for="inputEmail" class="sr-only">Email address</label>
+		 <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus><br>
+	  <label for="inputPassword" class="sr-only">Password</label>
+		  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="password" required>
+		<div class="checkbox">
+			<label> <input type="checkbox" value="remember-me">
+				Remember me
+			</label>
+		</div>
+		<input class="btn btn-lg btn-primary btn-block" type="button"
+			value="Submit" onclick="login()">
+
+
+
+	</div>
+
+
+	<!-- /container -->
+
+	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript">
+		function login() {
+			//var frm = $(document.loginFrm);
+			//var data = JSON.stringify(frm.serializeArray());
+			var userEmail = $("#inputEmail").val();
+			var userPassword = $("#inputPassword").val();
+			var url = "http://localhost:8080/library/auth/loginInfo/"
+					+ userEmail + "/" + userPassword;
+			jQuery.ajax({
+				type : "POST",
+				url : url,
+				/* data:data,*/   /*pay load  */
+				contentType : "application/json; charset=utf-8",
+				dataType : "json",
+				success : function(data, status, jqXHR) {
+			
+					if (data.role == "librarian") {
+						
+						 window.location.href ="/library/library/showDashboard";
+					} else if (data.role == "Admin") {
+						
+						 window.location.href ="/library/admin/showDashboard";
+					} else {
+						console.log("role user ")
+						 window.location.href ="/library/member/borrowBook";
+					} 
+				},
+				error : function(jqXHR, status) {
+					alert(status);
+				}
+
+			});
+
+		}
+	</script>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	
+
 	<script src="../static/js/bootstrap.min.js"
-	th:src="@{/js/bootstrap.min.js}"></script>
+		th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

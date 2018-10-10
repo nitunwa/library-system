@@ -6,17 +6,22 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "book")
-@XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
 	@Id
@@ -40,7 +45,8 @@ public class Book {
 	@NotNull
 	private Date currentDate = new Date();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "borrowBook")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "borrowBook" , fetch=FetchType.LAZY )
+	@JsonIgnore
 	List<BorrowBook> borrowList = new ArrayList<BorrowBook>();
 	
 	
@@ -59,7 +65,7 @@ public class Book {
 		return borrowList;
 	}
 
-
+	@JsonIgnoreProperties
 	public void setBorrowList(List<BorrowBook> borrowList) {
 		this.borrowList = borrowList;
 	}
@@ -120,6 +126,14 @@ public class Book {
 	public Book(Long id) {
 		this.id = id;
 	}
+
+	public Book(Long id, String bookName, String category) {
+		super();
+		this.id = id;
+		this.bookName = bookName;
+		this.category = category;
+	}
+
 
 	public Book(String bookName) {
 		super();

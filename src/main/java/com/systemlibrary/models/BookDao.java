@@ -1,15 +1,15 @@
 package com.systemlibrary.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Transactional
+@Transactional(readOnly=true)
 public class BookDao {
 
 	@PersistenceContext
@@ -21,7 +21,8 @@ public class BookDao {
 
 	public void create(Book book) {
 		entityManager.persist(book);
-		return;
+		System.out.println("BookDao.create()" +book.getId());
+		
 	}
 	@SuppressWarnings("unused")
 	public Boolean isBookExist(Book newBook) {
@@ -56,6 +57,32 @@ public class BookDao {
 	@SuppressWarnings("unchecked")
 	public List<Book> getAllBook() {
 		return entityManager.createQuery("from Book").getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> getBookName(String category) {
+		return entityManager.createQuery("from Book where category= :type ")
+				              .setParameter("type", category)
+				              .getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Book> getBookName(Book book) {
+		if(book.getCategory()!=null &&  ! "".equals(book.getCategory()) ){ // is user set category
+			return entityManager.createQuery("from Book where category= :category ")
+		              .setParameter("category", book.getCategory())
+		              .getResultList();
+			
+		}else if(book.getAuthor()!=null &&  ! "".equals(book.getAuthor()) ){ // is user set category
+			return entityManager.createQuery("from Book where author= :author ")
+		              .setParameter("author", book.getAuthor())
+		              .getResultList();
+			
+		}else{
+			return new ArrayList<Book>();
+		}
+		
+		
 	}
 
 	/**

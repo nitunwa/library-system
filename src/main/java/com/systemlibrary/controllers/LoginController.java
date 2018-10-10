@@ -116,12 +116,13 @@ public class LoginController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// rest service
 
-	AuthenticationDto authDto = new AuthenticationDto();
+	
 
 	@RequestMapping(value = "/loginInfo/{email}/{password}", method = RequestMethod.POST)
+	
 	public ResponseEntity<?> login(@PathVariable(value = "email") String email,
 			@PathVariable(value = "password") String password, HttpSession httpSession) {
-
+		AuthenticationDto authDto = new AuthenticationDto();
 		logger.info("Verifiing user: " + email);
 		try {
 			User user = userDao.getByEmail(email);
@@ -139,7 +140,7 @@ public class LoginController {
 				} else if (user.getRole().equals("librarian")) {
 					logger.info("librarian role");
 					authDto.setRole("librarian");
-					Thread.sleep(10000);
+					//Thread.sleep(10000);
 				} else {
 					logger.info("user role");
 					authDto.setRole("User");

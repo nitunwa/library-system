@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.systemlibrary.Application;
 
 @SpringBootApplication
-@EnableAutoConfiguration
+
 public class Application {
 
 	public static void main(String[] args) {
