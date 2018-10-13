@@ -40,7 +40,11 @@ public class TestRestController {
 	}
 
 	@GetMapping(value = "/getBookByName", produces = "application/json")
-	public List<Book> getBookByName(@RequestParam(value = "bookName") String bookName) {
+	public List<Book> getBookByName(@RequestParam(value = "bookName") String bookName
+			,@RequestParam(value = "token") String token) {
+		if(!token.equals("1234")){
+			return null;
+		}
 		logger.info("Book Name:" + bookName);
 		List<Book> b = findBookByNameV2(bookName);
 		return b;
